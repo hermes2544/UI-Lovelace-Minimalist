@@ -58,10 +58,22 @@
     return root?.shadowRoot;
   }
 
+  function isMobileViewport() {
+    // Do not run the bottom tapbar fix on desktop-width layouts. Otherwise the
+    // fixed bottom header can cover HA sidebar items such as the user/profile
+    // icon at the bottom of the sidebar.
+    return window.matchMedia("(max-width: 767px)").matches;
+  }
+
   function apply() {
-    if (!selectedThemeMatches()) return false;
     const root = findHuiRootShadow();
     if (!root) return false;
+
+    if (!selectedThemeMatches() || !isMobileViewport()) {
+      const style = root.getElementById(STYLE_ID);
+      if (style) style.remove();
+      return false;
+    }
 
     let style = root.getElementById(STYLE_ID);
     if (!style) {
@@ -81,6 +93,7 @@
   }
 
   window.addEventListener("location-changed", schedule);
+  window.addEventListener("resize", schedule);
   window.addEventListener("hashchange", schedule);
   window.addEventListener("storage", schedule);
   document.addEventListener("visibilitychange", schedule);

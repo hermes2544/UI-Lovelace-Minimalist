@@ -47,6 +47,43 @@ minimalist-mobile-tapbar:
         height: var(--header-base-height) !important;
         padding-bottom: env(safe-area-inset-bottom) !important;
       }
+
+  # Plain card-mod root is required by newer HA/card-mod combinations. The
+  # legacy card-mod-root-yaml block below is kept for compatibility.
+  card-mod-root: |
+    .header {
+      position: fixed !important;
+      top: auto !important;
+      bottom: 0px !important;
+      left: 0 !important;
+      right: 0 !important;
+      width: 100% !important;
+      z-index: 10 !important;
+      box-shadow: var(--footer-shadow);
+      height: var(--header-height) !important;
+      transform: none !important;
+    }
+    .toolbar {
+      height: var(--header-base-height) !important;
+      padding-bottom: env(safe-area-inset-bottom) !important;
+    }
+    #view {
+      padding-top: 0 !important;
+      padding-bottom: var(--header-height) !important;
+    }
+    ha-tab-group {
+      display: flex !important;
+      justify-content: space-evenly !important;
+      width: 97% !important;
+    }
+    ha-tab-group-tab,
+    ha-tab,
+    paper-tab,
+    sl-tab {
+      flex: 1 1 auto !important;
+      min-width: unset !important;
+      justify-content: center !important;
+    }
   card-mod-root-yaml: |
     ha-tabs$: |
       #tabsContent {

@@ -30,15 +30,35 @@
     }
     ha-tab-group {
       display: flex !important;
-      justify-content: space-evenly !important;
-      width: 97% !important;
+      justify-content: flex-start !important;
+      width: 100% !important;
+      min-width: 0 !important;
+      overflow: hidden !important;
+    }
+    ha-tab-group::part(base),
+    ha-tab-group::part(nav) {
+      width: 100% !important;
+      min-width: 0 !important;
+      overflow-x: auto !important;
+      overflow-y: hidden !important;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    ha-tab-group::part(nav)::-webkit-scrollbar {
+      display: none;
+    }
+    ha-tab-group::part(tabs) {
+      width: max-content !important;
+      min-width: max-content !important;
+      display: flex !important;
     }
     ha-tab-group-tab,
     ha-tab,
     paper-tab,
     sl-tab {
-      flex: 1 1 auto !important;
-      min-width: unset !important;
+      flex: 0 0 56px !important;
+      width: 56px !important;
+      min-width: 56px !important;
       justify-content: center !important;
     }
   `;

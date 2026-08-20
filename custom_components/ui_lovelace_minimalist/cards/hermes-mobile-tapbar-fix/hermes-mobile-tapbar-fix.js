@@ -1,7 +1,12 @@
-// UI Lovelace Minimalist mobile tapbar compatibility patch for Home Assistant 2026+
-// Runs only when the selected/card-mod theme is "minimalist-mobile-tapbar".
+// UI Lovelace Minimalist tapbar compatibility patch for Home Assistant 2026+
+// Runs only when the selected/card-mod theme is a Minimalist tapbar theme.
 (function () {
   const STYLE_ID = "ulm-mobile-tapbar-ha2026-fix";
+  const TAPBAR_THEMES = new Set([
+    "minimalist-mobile-tapbar",
+    "minimalist-ios-tapbar",
+  ]);
+
   const CSS = `
     .header {
       position: fixed !important;
@@ -16,7 +21,7 @@
       box-shadow: var(--footer-shadow, 0px -1px 3px 0px rgba(0,0,0,0.12));
     }
     .toolbar {
-      height: var(--header-base-height, 70px) !important;
+      height: var(--header-height, var(--header-base-height, 70px)) !important;
       padding-bottom: env(safe-area-inset-bottom) !important;
     }
     #view {
@@ -41,13 +46,13 @@
   function selectedThemeMatches() {
     try {
       const raw = localStorage.getItem("selectedTheme");
-      if (raw && JSON.parse(raw).theme === "minimalist-mobile-tapbar") return true;
+      if (raw && TAPBAR_THEMES.has(JSON.parse(raw).theme)) return true;
     } catch (_) {}
 
     const theme = getComputedStyle(document.documentElement)
       .getPropertyValue("--card-mod-theme")
       .trim();
-    return theme === "minimalist-mobile-tapbar";
+    return TAPBAR_THEMES.has(theme);
   }
 
   function findHuiRootShadow() {
